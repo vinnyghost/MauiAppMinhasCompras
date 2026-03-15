@@ -1,9 +1,94 @@
+using MauiAppMinhasCompras.Models;
+using System.Collections.ObjectModel;
+
 namespace MauiAppMinhasCompras.Views;
 
 public partial class ListaProduto : ContentPage
 {
+	ObservableCollection<Produto> lista = new ObservableCollection<Produto>();
 	public ListaProduto()
 	{
 		InitializeComponent();
+
+		lst_produtos.ItemsSource = lista;
 	}
+
+    protected async override void OnAppearing()
+    {
+        try
+        {
+            // Limpa a lista da interface antes de carregar do banco
+            lista.Clear();
+
+            List<Produto> tmp = await App.Db.GetAll();
+
+            tmp.ForEach(i => lista.Add(i));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Ops", ex.Message, "OK");
+        }
+    }
+    private void ToolbarItem_Clicked(object sender, EventArgs e)
+    {
+		try
+		{	//navegacao de tela para a view NovoProduto
+			Navigation.PushAsync(new Views.NovoProduto());
+
+		} catch (Exception ex)
+		{
+			DisplayAlert("Ops", ex.Message, "OK");
+		}
+    }
+
+    private async void txt_search_TextChanged(object sender, TextChangedEventArgs e)
+    {
+		string q = e.NewTextValue;
+
+		lista.Clear();
+
+        List<Produto> tmp = await App.Db.Search(q);
+
+        tmp.ForEach(i => lista.Add(i));
+    }
+
+    private void ToolbarItem_Clicked_1(object sender, EventArgs e)
+    {
+		double soma = lista.Sum(i => i.Total);
+
+		string msg = $"O total é {soma:C}";
+
+		DisplayAlert("Total dos Produtos", msg, "OK");
+    }
+
+    private async void MenuItem_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            // Pega o componente MenuItem que acionou o evento
+            MenuItem selecionado = (MenuItem)sender;
+
+            // Descobre qual Produto está vinculado a esse MenuItem
+            Produto p = selecionado.BindingContext as Produto;
+
+            // Pede uma confirmação ao usuário antes de excluir
+            bool confirmacao = await DisplayAlert(
+                "Confirmação",
+                $"Tem certeza que deseja remover o item '{p.Descricao}'?",
+                "Sim", "Não");
+
+            if (confirmacao)
+            {
+                // Remove do banco de dados SQLite
+                await App.Db.Delete(p.Id);
+
+                // Remove da lista que está atualizando a interface gráfica
+                lista.Remove(p);
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Ops", ex.Message, "OK");
+        }
+    }
 }
