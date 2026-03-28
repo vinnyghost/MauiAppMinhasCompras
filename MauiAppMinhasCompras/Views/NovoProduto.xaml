@@ -2,20 +2,47 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiAppMinhasCompras.Views.NovoProduto"
-             Title="NovoProduto">
+             Title="NovoProduto"
+             BackgroundColor="#121212">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Salvar" Clicked="ToolbarItem_Clicked" />
     </ContentPage.ToolbarItems>
     
-    <VerticalStackLayout Spacing="10" Padding="10">
-        <Label Text="Descriçao do Produto:" />
-        <Entry x:Name="txt_descricao"/>
+    <VerticalStackLayout Spacing="15" Padding="20">
 
-        <Label Text="Quantidade:" />
-        <Entry x:Name="txt_quantidade" Keyboard="Numeric"/>
+        <Label Text="Categoria:" TextColor="#BB86FC" FontAttributes="Bold" />
+        <Picker x:Name="pck_categoria"
+                Title="Selecione uma categoria"
+                TitleColor="#888" 
+                TextColor="White" 
+                BackgroundColor="#1E1E1E">
+            <Picker.Items>
+                <x:String>Alimentos</x:String>
+                <x:String>Higiene</x:String>
+                <x:String>Limpeza</x:String>
+                <x:String>Outros</x:String>
+            </Picker.Items>
+        </Picker>
 
-        <Label Text="Preço Unitário:" />
-        <Entry x:Name="txt_preco" Keyboard="Numeric"/>
+        <Label Text="Descriçao do Produto:" TextColor="#BB86FC" FontAttributes="Bold" />
+        <Entry x:Name="txt_descricao"
+               Placeholder="Ex: Arroz" 
+               PlaceholderColor="#666" 
+               TextColor="White" 
+               BackgroundColor="#1E1E1E"/>
+
+        <Label Text="Quantidade:" TextColor="#BB86FC" FontAttributes="Bold" />
+        <Entry x:Name="txt_quantidade" 
+               Keyboard="Numeric"
+               TextColor="White" 
+               BackgroundColor="#1E1E1E"/>
+
+        <Label Text="Preço Unitário:" TextColor="#BB86FC" FontAttributes="Bold" />
+        <Entry x:Name="txt_preco"
+               Keyboard="Numeric"
+               TextColor="White" 
+               BackgroundColor="#1E1E1E"/>
+        
     </VerticalStackLayout>
 </ContentPage>

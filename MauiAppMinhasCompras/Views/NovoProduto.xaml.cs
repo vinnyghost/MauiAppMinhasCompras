@@ -17,8 +17,9 @@ public partial class NovoProduto : ContentPage
             //declara uma variavel p do tipo Produto que recebe um novo objeto do tipo produto
             Produto p = new Produto
             {
-                //propriedades para preenchimento
+                //Propriedades para preenchimento
                 Descricao = txt_descricao.Text,
+                Categoria = pck_categoria.SelectedItem?.ToString() ?? "Outros", // Pega o valor do Picker
                 Quantidade = Convert.ToDouble(txt_quantidade.Text),
                 Preco = Convert.ToDouble(txt_preco.Text)
             };

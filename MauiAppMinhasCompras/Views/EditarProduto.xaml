@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiAppMinhasCompras.Views.EditarProduto"
+             BackgroundColor="#121212"
              Title="{Binding Descricao}"> <!-- informa o nome do produto no titulo da tela de edição-->
 
     <ContentPage.ToolbarItems>
@@ -9,14 +10,41 @@
         <ToolbarItem Text="Salvar" Clicked="ToolbarItem_Clicked"/>
     </ContentPage.ToolbarItems>
 
-    <VerticalStackLayout Spacing="10" Padding="10">
-        <Label Text="Descriçao do Produto:" />
-        <Entry x:Name="txt_descricao" Text="{Binding Descricao}"/>
+    <VerticalStackLayout Spacing="15" Padding="20">
 
-        <Label Text="Quantidade:" />
-        <Entry x:Name="txt_quantidade" Text="{Binding Quantidade}" Keyboard="Numeric"/>
+        <Label Text="Categoria:" TextColor="#BB86FC" FontAttributes="Bold" />
+        <Picker x:Name="pck_categoria" 
+                Title="Selecione uma Categoria" 
+                TitleColor="#888" 
+                TextColor="White" 
+                BackgroundColor="#1E1E1E">
+            <Picker.Items>
+                <x:String>Alimentos</x:String>
+                <x:String>Higiene</x:String>
+                <x:String>Limpeza</x:String>
+                <x:String>Outros</x:String>
+            </Picker.Items>
+        </Picker>
 
-        <Label Text="Preço Unitário:" />
-        <Entry x:Name="txt_preco" Text ="{Binding Preco}" Keyboard="Numeric"/>
+        <Label Text="Descrição do Produto:" TextColor="#BB86FC" FontAttributes="Bold" />
+        <Entry x:Name="txt_descricao" 
+               Text="{Binding Descricao}" 
+               TextColor="White" 
+               BackgroundColor="#1E1E1E"/>
+
+        <Label Text="Quantidade:" TextColor="#BB86FC" FontAttributes="Bold" />
+        <Entry x:Name="txt_quantidade" 
+               Text="{Binding Quantidade}" 
+               Keyboard="Numeric" 
+               TextColor="White" 
+               BackgroundColor="#1E1E1E"/>
+
+        <Label Text="Preço Unitário:" TextColor="#BB86FC" FontAttributes="Bold" />
+        <Entry x:Name="txt_preco" 
+               Text ="{Binding Preco}" 
+               Keyboard="Numeric" 
+               TextColor="White" 
+               BackgroundColor="#1E1E1E"/>
+        
     </VerticalStackLayout>
 </ContentPage>

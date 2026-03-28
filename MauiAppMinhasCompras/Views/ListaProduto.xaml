@@ -2,52 +2,75 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiAppMinhasCompras.Views.ListaProduto"
-             Title="Minhas Compras">
- 
+             Title="Minhas Compras"
+             BackgroundColor="#121212">
+
     <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Relatório" Clicked="ToolbarItem_Relatorio_Clicked"/>
         <ToolbarItem Text="Somar" Clicked="ToolbarItem_Clicked_1"/>
         <ToolbarItem Text="Adicionar" Clicked="ToolbarItem_Clicked"/>
     </ContentPage.ToolbarItems>
-    
+
     <VerticalStackLayout>
-            <!-- mecanismo de busca de produtos cadastrados -->
+        <!-- mecanismo de busca de produtos cadastrados -->
+        <Picker x:Name="pck_filtro_categoria" 
+                Title="Filtrar por Categoria"
+                TitleColor="#BB86FC"
+                TextColor="White"
+                SelectedIndexChanged="pck_filtro_categoria_SelectedIndexChanged" 
+                Margin="10,5"
+ >
+            <Picker.Items>
+                <x:String>Todas</x:String>
+                <x:String>Alimentos</x:String>
+                <x:String>Higiene</x:String>
+                <x:String>Limpeza</x:String>
+                <x:String>Outros</x:String>
+            </Picker.Items>
+        </Picker>
+        <!-- Visualização da lista de produtos -->
         <SearchBar x:Name="txt_search" 
                    Placeholder="Busca de Produtos"
+                   PlaceholderColor="#888"
+                   TextColor="White"
+                   BackgroundColor="#1E1E1E"
                    TextChanged="txt_search_TextChanged"/>
-        
-            <!-- Visualização da lista de produtos -->
-        <ListView x:Name="lst_produtos" ItemSelected="lst_produtos_ItemSelected">
+
+        <ListView x:Name="lst_produtos"
+                  ItemSelected="lst_produtos_ItemSelected"
+                  SeparatorVisibility="None" 
+                  BackgroundColor="Transparent"
+                  HasUnevenRows="True">
+            <!-- define o número de colunas (6) -->
             <ListView.Header>
-                    <!-- define o número de colunas (5) -->
-                <Grid ColumnDefinitions="*, *, *, *, *"> 
-                    <!-- Titulos das colunas -->
-                    <Label Grid.Column="0" Text="ID" FontAttributes="Bold" />
-                    <Label Grid.Column="1" Text="Descrição" FontAttributes="Bold" />
-                    <Label Grid.Column="2" Text="Preço" FontAttributes="Bold" />
-                    <Label Grid.Column="3" Text="Qnt" FontAttributes="Bold" />
-                    <Label Grid.Column="4" Text="Total" FontAttributes="Bold" />
+                <Grid ColumnDefinitions="*, *, *, *, *, *" BackgroundColor="#1E1E1E" Padding="5">
+                    <Label Grid.Column="0" Text="ID" FontAttributes="Bold" TextColor="#BB86FC" HorizontalTextAlignment="Center" />
+                    <Label Grid.Column="1" Text="Categoria" FontAttributes="Bold" TextColor="#BB86FC" HorizontalTextAlignment="Center" />
+                    <Label Grid.Column="2" Text="Descrição" FontAttributes="Bold" TextColor="#BB86FC" HorizontalTextAlignment="Center" />
+                    <Label Grid.Column="3" Text="Preço" FontAttributes="Bold" TextColor="#BB86FC" HorizontalTextAlignment="Center" />
+                    <Label Grid.Column="4" Text="Qnt" FontAttributes="Bold" TextColor="#BB86FC" HorizontalTextAlignment="Center" />
+                    <Label Grid.Column="5" Text="Total" FontAttributes="Bold" TextColor="#BB86FC" HorizontalTextAlignment="Center" />
                 </Grid>
             </ListView.Header>
-                <!-- Template que define como cada item da lista será exibido -->
+            <!-- Template que define como cada item da lista será exibido -->
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <!-- Menu de contexto ao segurar/clicar no item -->
                         <ViewCell.ContextActions>
                             <!-- Botão para remover um produto da lista -->
-                            <MenuItem Text="Remover" 
-                                      IsDestructive="True" 
-                                      Clicked="MenuItem_Clicked" /> 
+                            <MenuItem Text="Remover" IsDestructive="True" Clicked="MenuItem_Clicked" />
                         </ViewCell.ContextActions>
 
-                    <Grid ColumnDefinitions="*, *, *, *, *">
-                        <!-- exibe os dados de cada item da lista -->
-                            <Label Grid.Column="0" Text="{Binding Id}" VerticalOptions="Center" />
-                            <Label Grid.Column="1" Text="{Binding Descricao}" VerticalOptions="Center" />
-                            <Label Grid.Column="2" Text="{Binding Preco, StringFormat='{0:C2}'}" VerticalOptions="Center" />
-                            <Label Grid.Column="3" Text="{Binding Quantidade}" VerticalOptions="Center" />
-                            <Label Grid.Column="4" Text="{Binding Total, StringFormat='{0:C2}'}" VerticalOptions="Center" />
-                    </Grid>
+                        <Grid ColumnDefinitions="*, *, *, *, *, *" Padding="5">
+                            <!-- exibe os dados de cada item da lista -->
+                            <Label Grid.Column="0" Text="{Binding Id}" TextColor="White" VerticalOptions="Center" HorizontalTextAlignment="Center" />
+                            <Label Grid.Column="1" Text="{Binding Categoria}" TextColor="White" VerticalOptions="Center" HorizontalTextAlignment="Center" />
+                            <Label Grid.Column="2" Text="{Binding Descricao}" TextColor="White" VerticalOptions="Center" HorizontalTextAlignment="Center" />
+                            <Label Grid.Column="3" Text="{Binding Preco, StringFormat='{0:C2}'}" TextColor="White" VerticalOptions="Center" HorizontalTextAlignment="Center" />
+                            <Label Grid.Column="4" Text="{Binding Quantidade}" TextColor="White" VerticalOptions="Center" HorizontalTextAlignment="Center" />
+                            <Label Grid.Column="5" Text="{Binding Total, StringFormat='{0:C2}'}" TextColor="#03DAC6" FontAttributes="Bold" VerticalOptions="Center" HorizontalTextAlignment="Center" />
+                        </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

@@ -22,6 +22,7 @@ public partial class EditarProduto : ContentPage
                 //propriedades para preenchimento
                 Id = produto_anexado.Id,
                 Descricao = txt_descricao.Text,
+                Categoria = pck_categoria.SelectedItem?.ToString(), // Captura a categoria editada
                 Quantidade = Convert.ToDouble(txt_quantidade.Text),
                 Preco = Convert.ToDouble(txt_preco.Text)
             };

@@ -146,4 +146,66 @@ public partial class ListaProduto : ContentPage
             DisplayAlert("Ops", ex.Message, "OK");
         }
     }
+
+    // Evento disparado ao trocar a categoria no Picker de filtro
+    private async void pck_filtro_categoria_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            string categoriaSelecionada = pck_filtro_categoria.SelectedItem?.ToString();
+
+            lista.Clear();
+
+            // Pega todos os produtos
+            List<Produto> tmp = await App.Db.GetAll();
+
+            // Se a categoria for diferente de "Todas", aplicamos o filtro
+            if (!string.IsNullOrEmpty(categoriaSelecionada) && categoriaSelecionada != "Todas")
+            {
+                tmp = tmp.Where(p => p.Categoria == categoriaSelecionada).ToList();
+            }
+
+            tmp.ForEach(i => lista.Add(i));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Ops", ex.Message, "OK");
+        }
+    }
+
+    // Evento disparado ao clicar no botão Relatório
+    private async void ToolbarItem_Relatorio_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            // Busca todos os produtos do banco
+            List<Produto> todosProdutos = await App.Db.GetAll();
+
+            // Agrupa os produtos por Categoria e soma o total de cada grupo
+            var relatorio = todosProdutos
+                .GroupBy(p => p.Categoria)
+                .Select(g => new {
+                    Categoria = string.IsNullOrEmpty(g.Key) ? "Sem Categoria" : g.Key,
+                    TotalGasto = g.Sum(p => p.Total)
+                })
+                .ToList();
+
+            // Monta a mensagem de texto do relatório
+            string mensagem = "";
+            foreach (var item in relatorio)
+            {
+                mensagem += $"{item.Categoria}: {item.TotalGasto:C2}\n";
+            }
+
+            if (string.IsNullOrEmpty(mensagem))
+                mensagem = "Nenhum produto cadastrado para gerar relatório.";
+
+            // Exibe o relatório num alerta na tela
+            await DisplayAlert("Gasto por Categoria", mensagem, "OK");
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Ops", ex.Message, "OK");
+        }
+    }
 }

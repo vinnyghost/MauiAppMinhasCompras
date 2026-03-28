@@ -9,6 +9,7 @@ namespace MauiAppMinhasCompras.Models
         string _descricao;
         double _quantidade;
         double _preco;
+        string _categoria;
 
         // Define a chave primária no banco e auto incremento
         [PrimaryKey, AutoIncrement]
@@ -73,6 +74,19 @@ namespace MauiAppMinhasCompras.Models
         public double Total
         {
             get => Quantidade * Preco;
+        }
+
+        public string Categoria
+        {
+            get => _categoria;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new Exception("Por favor, selecione uma categoria.");
+                }
+                _categoria = value;
+            }
         }
     }
 }
